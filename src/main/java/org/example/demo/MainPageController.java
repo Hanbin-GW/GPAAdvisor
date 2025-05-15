@@ -11,8 +11,9 @@ public class MainPageController extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("Hello World");
         Parent root = FXMLLoader.load(getClass().getResource("main-page.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("gpa-form.fxml"));
         Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("Multi Page Example");
+        stage.setTitle("GPA Advisor");
         stage.setScene(scene);
         stage.show();
     }

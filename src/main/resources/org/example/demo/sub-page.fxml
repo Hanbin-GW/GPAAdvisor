@@ -8,4 +8,7 @@
             fx:controller="org.example.demo.SubPage"
             prefHeight="400.0" prefWidth="600.0">
     <Button text="Back to Main" layoutX="200" layoutY="150" onAction="#handleBackToMainPage"/>
+
+    <Button layoutX="200" layoutY="170" text="Go to GPA Form" onAction="#handleGoToGpaForm"/>
+
 </AnchorPane>

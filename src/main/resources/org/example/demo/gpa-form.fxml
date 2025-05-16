@@ -6,29 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.demo.GpaFormController"
-      spacing="10" alignment="CENTER" padding="20">
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.demo.GpaForm"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="10" layoutX="150" layoutY="50" alignment="CENTER">
+        <Label text="Start the GPA Advise" style="-fx-font-size: 18px;" />
+        <TextField fx:id="subject1Field" promptText="과목 1 성적 (예: A, B+)" />
+        <TextField fx:id="subject2Field" promptText="과목 2 성적" />
+        <TextField fx:id="subject3Field" promptText="과목 3 성적" />
 
-    <Label text="GPA Calculator" style="-fx-font-size: 18px;" />
-
-    <HBox spacing="5">
-        <Label text="Subject 1:" />
-        <TextField fx:id="subject1Field" promptText="A / B+ / C"/>
-    </HBox>
-
-    <HBox spacing="5">
-        <Label text="Subject 2:" />
-        <TextField fx:id="subject2Field" promptText="A / B+ / C"/>
-    </HBox>
-
-    <HBox spacing="5">
-        <Label text="Subject 3:" />
-        <TextField fx:id="subject3Field" promptText="A / B+ / C"/>
-    </HBox>
-
-    <Button text="Calculate GPA" onAction="#calculateGpa"/>
-    <Label fx:id="resultLabel" text="Result will appear here"/>
-</VBox>
-
+        <Button text="GPA 계산" onAction="#calculateGpa" />
+        <Label fx:id="resultLabel" text="계산 결과가 여기에 표시됩니다" />
+    </VBox>
+</AnchorPane>

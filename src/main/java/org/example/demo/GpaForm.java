@@ -38,7 +38,7 @@ public class GpaForm {
     @FXML
     private void addSubject() {
         if (subjectList.size() >= MAX_SUBJECTS) {
-            statusLabel.setText("❌ 이미 5개 등록됨");
+            statusLabel.setText("❌ Already 5 subject registered");
             return;
         }
 
@@ -49,7 +49,7 @@ public class GpaForm {
 
             subjectList.add(new Subject(name, credit, gpa));
             int count = subjectList.size();
-            statusLabel.setText("✅ 등록됨: " + name + " (" + count + "/5)");
+            statusLabel.setText("✅ registered: " + name + " (" + count + "/5)");
             resultLabel.setText("");
 
             // 입력 초기화
@@ -58,7 +58,7 @@ public class GpaForm {
             gradeField.clear();
 
         } catch (Exception e) {
-            resultLabel.setText("❌ 입력 오류 (숫자 확인)");
+            resultLabel.setText("❌ Error (Check the number)");
         }
     }
 
@@ -78,14 +78,14 @@ public class GpaForm {
         }
 
         double avg = totalPoints / totalCredits;
-        resultLabel.setText(String.format("🎓 총 GPA: %.2f", avg));
+        resultLabel.setText(String.format("🎓Total GPA: %.2f", avg));
     }
     @FXML
     private void goToScorePage(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("score-input.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 600, 400));
-        stage.setTitle("점수 입력");
+        stage.setTitle("Insert a score");
     }
 
 }

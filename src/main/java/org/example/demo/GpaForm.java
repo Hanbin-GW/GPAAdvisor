@@ -20,7 +20,7 @@ public class GpaForm {
     @FXML private Label statusLabel;
     @FXML private Label resultLabel;
 
-    public static class Subject {
+    public class Subject {
         String name;
         double credit;
         double score;

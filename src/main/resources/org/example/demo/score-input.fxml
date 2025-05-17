@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.demo.ScoreInputController"
+      spacing="10" alignment="CENTER" prefWidth="600" prefHeight="400">
+
+    <!-- 제목 -->
+    <Label text="과목별 점수 입력" style="-fx-font-size: 18px;"/>
+
+    <!-- 점수 입력 필드들이 동적으로 추가될 위치 -->
+    <VBox fx:id="rootBox" spacing="5" />
+
+    <!-- 저장 버튼 -->
+    <Button text="점수 저장" onAction="#saveScores"/>
+
+</VBox>

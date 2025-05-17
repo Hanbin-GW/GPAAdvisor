@@ -17,8 +17,8 @@ public class SubPage {
         stage.setScene(new Scene(root, 600, 400));
         stage.setTitle("Main Page");
     }
-    @FXML
 
+    @FXML
     private void handleGoToGpaForm(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("gpa-form.fxml")));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

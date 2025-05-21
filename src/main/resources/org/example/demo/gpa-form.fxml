@@ -11,13 +11,13 @@
     <Label text="GPA Calculator" style="-fx-font-size: 18px;" />
 
     <TextField fx:id="subjectNameField" promptText="Subject Name (ex: Math)" />
-    <TextField fx:id="creditField" promptText="학점 (예: 3)" />
-    <TextField fx:id="gradeField" promptText="GPA (예: 4.0)" />
+    <TextField fx:id="creditField" promptText="Credits (e.g. 3) " />
+    <TextField fx:id="gradeField" promptText="GPA (e.g. 4.0)" />
 
     <Button text="과목 추가" onAction="#addSubject" />
     <Button text="점수 입력 화면으로 이동" onAction="#goToScorePage" />
 
-    <Label fx:id="statusLabel" text="0/5 Subject Registred" />
-    <Label fx:id="resultLabel" text="총 GPA가 여기에 표시됩니다" />
+    <Label fx:id="statusLabel" text="0/5 Subject Registered" />
+    <Label fx:id="resultLabel" text="Total GPA shown here" />
 
 </VBox>

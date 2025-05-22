@@ -65,6 +65,28 @@ public class MainPageController extends Application {
         public String getLetterGrade() { return letterGrade; }
         public double getGpaValue() { return gpaValue; }
 
-
+        public void calculateFinalGrade() {
+            finalScore = (homework * 0.3) + (quiz * 0.2) + (test * 0.3) + (exam * 0.2);
+            if(finalScore >= 97) {
+                letterGrade = "A+";
+                gpaValue = 4.5;
+            }
+            else if(finalScore >= 93) {
+                letterGrade = "A";
+                gpaValue = 4.3;
+            }
+            else if(finalScore >= 90) {
+                letterGrade = "A-";
+                gpaValue = 4.0;
+            }
+            else if (finalScore >= 87){
+                letterGrade = "B+";
+                gpaValue = 3.5;
+            }
+            else if(finalScore >= 83) {
+                letterGrade = "B";
+                gpaValue = 3.0;
+            }
+        }
     }
 }

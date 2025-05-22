@@ -14,8 +14,8 @@
     <TextField fx:id="creditField" promptText="Credits (e.g. 3) " />
     <TextField fx:id="gradeField" promptText="GPA (e.g. 4.0)" />
 
-    <Button text="과목 추가" onAction="#addSubject" />
-    <Button text="점수 입력 화면으로 이동" onAction="#goToScorePage" />
+    <Button text="Add Subjects" onAction="#addSubject" />
+    <Button text="Go to the score entry screen" onAction="#goToScorePage" />
 
     <Label fx:id="statusLabel" text="0/5 Subject Registered" />
     <Label fx:id="resultLabel" text="Total GPA shown here" />

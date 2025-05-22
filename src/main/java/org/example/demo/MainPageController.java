@@ -41,5 +41,30 @@ public class MainPageController extends Application {
             this.letterGrade = "F";
             this.gpaValue = 0.0;
         }
+
+        // Getters and Setters
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+
+        public double getHomework() { return homework; }
+        public void setHomework(double homework) { this.homework = homework; }
+
+        public double getQuiz() { return quiz; }
+        public void setQuiz(double quiz) { this.quiz = quiz; }
+
+        public double getTest() { return test; }
+        public void setTest(double test) { this.test = test; }
+
+        public double getExam() { return exam; }
+        public void setExam(double exam) { this.exam = exam; }
+
+        public double getCredits() { return credits; }
+        public void setCredits(double credits) { this.credits = credits; }
+
+        public double getFinalScore() { return finalScore; }
+        public String getLetterGrade() { return letterGrade; }
+        public double getGpaValue() { return gpaValue; }
+
+
     }
 }

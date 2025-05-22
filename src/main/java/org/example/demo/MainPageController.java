@@ -9,15 +9,6 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class MainPageController extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Hello World");
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main-page.fxml")));
-        Scene scene = new Scene(root, 600, 400);
-        stage.setTitle("GPA Advisor");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     private static class Subject{
         private String name;
@@ -72,7 +63,7 @@ public class MainPageController extends Application {
                 gpaValue = 4.5;
             }
             else if(finalScore >= 93) {
-                letterGrade = "A";
+                letterGrade = "A0";
                 gpaValue = 4.3;
             }
             else if(finalScore >= 90) {
@@ -84,8 +75,28 @@ public class MainPageController extends Application {
                 gpaValue = 3.5;
             }
             else if(finalScore >= 83) {
-                letterGrade = "B";
+                letterGrade = "B0";
+                gpaValue = 3.3;
+            }
+            else if(finalScore >= 80) {
+                letterGrade = "B-";
                 gpaValue = 3.0;
+            }
+            else if (finalScore >= 77) {
+                letterGrade = "C+";
+                gpaValue = 2.5;
+            }
+            else if(finalScore >= 73) {
+                letterGrade = "C0";
+                gpaValue = 2.3;
+            }
+            else if(finalScore >= 70) {
+                letterGrade = "C-";
+                gpaValue = 2.0;
+            }
+            else {
+                letterGrade = "F";
+                gpaValue = 0.0;
             }
         }
     }

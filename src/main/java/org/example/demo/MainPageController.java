@@ -1,16 +1,19 @@
 package org.example.demo;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.util.Objects;
 
 public class MainPageController extends Application {
 
-    private static class Subject{
+    private static class Subject {
         private String name;
         private double homework;
         private double quiz;
@@ -34,70 +37,130 @@ public class MainPageController extends Application {
         }
 
         // Getters and Setters
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
+        public String getName() {
+            return name;
+        }
 
-        public double getHomework() { return homework; }
-        public void setHomework(double homework) { this.homework = homework; }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-        public double getQuiz() { return quiz; }
-        public void setQuiz(double quiz) { this.quiz = quiz; }
+        public double getHomework() {
+            return homework;
+        }
 
-        public double getTest() { return test; }
-        public void setTest(double test) { this.test = test; }
+        public void setHomework(double homework) {
+            this.homework = homework;
+        }
 
-        public double getExam() { return exam; }
-        public void setExam(double exam) { this.exam = exam; }
+        public double getQuiz() {
+            return quiz;
+        }
 
-        public double getCredits() { return credits; }
-        public void setCredits(double credits) { this.credits = credits; }
+        public void setQuiz(double quiz) {
+            this.quiz = quiz;
+        }
 
-        public double getFinalScore() { return finalScore; }
-        public String getLetterGrade() { return letterGrade; }
-        public double getGpaValue() { return gpaValue; }
+        public double getTest() {
+            return test;
+        }
+
+        public void setTest(double test) {
+            this.test = test;
+        }
+
+        public double getExam() {
+            return exam;
+        }
+
+        public void setExam(double exam) {
+            this.exam = exam;
+        }
+
+        public double getCredits() {
+            return credits;
+        }
+
+        public void setCredits(double credits) {
+            this.credits = credits;
+        }
+
+        public double getFinalScore() {
+            return finalScore;
+        }
+
+        public String getLetterGrade() {
+            return letterGrade;
+        }
+
+        public double getGpaValue() {
+            return gpaValue;
+        }
 
         public void calculateFinalGrade() {
             finalScore = (homework * 0.3) + (quiz * 0.2) + (test * 0.3) + (exam * 0.2);
-            if(finalScore >= 97) {
+            if (finalScore >= 97) {
                 letterGrade = "A+";
                 gpaValue = 4.5;
-            }
-            else if(finalScore >= 93) {
+            } else if (finalScore >= 93) {
                 letterGrade = "A0";
                 gpaValue = 4.3;
-            }
-            else if(finalScore >= 90) {
+            } else if (finalScore >= 90) {
                 letterGrade = "A-";
                 gpaValue = 4.0;
-            }
-            else if (finalScore >= 87){
+            } else if (finalScore >= 87) {
                 letterGrade = "B+";
                 gpaValue = 3.5;
-            }
-            else if(finalScore >= 83) {
+            } else if (finalScore >= 83) {
                 letterGrade = "B0";
                 gpaValue = 3.3;
-            }
-            else if(finalScore >= 80) {
+            } else if (finalScore >= 80) {
                 letterGrade = "B-";
                 gpaValue = 3.0;
-            }
-            else if (finalScore >= 77) {
+            } else if (finalScore >= 77) {
                 letterGrade = "C+";
                 gpaValue = 2.5;
-            }
-            else if(finalScore >= 73) {
+            } else if (finalScore >= 73) {
                 letterGrade = "C0";
                 gpaValue = 2.3;
-            }
-            else if(finalScore >= 70) {
+            } else if (finalScore >= 70) {
                 letterGrade = "C-";
                 gpaValue = 2.0;
-            }
-            else {
+            } else {
                 letterGrade = "F";
                 gpaValue = 0.0;
             }
         }
+    }
+
+    // 과목 목록
+    private ObservableList<Subject> subjects = FXCollections.observableArrayList();
+    private ListView<Subject> subjectListView;
+    private TextField nameField, creditsField, homeworkField, quizField, testField, examField;
+    private TextField targetGPAField;
+    private CheckBox predictionCheckBox;
+    private Label resultLabel, predictionLabel, gradeLabel, targetFeedbackLabel;
+
+    // 현재 계산된 GPA 저장
+    private double currentGPA = 0.0;
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("GPA 계산기");
+
+        // Main layout
+        BorderPane mainLayout = new BorderPane();
+
+        // 왼쪽 패널 - 과목 목록Left Panel - Subject List
+        //VBox leftPanel = createLeftPanel();
+        //mainLayout.setLeft(leftPanel);
+
+        // Right Panel - Entry and Results of Subject Information
+        //VBox rightPanel = createRightPanel();
+        //mainLayout.setRight(rightPanel);
+
+        Scene scene = new Scene(mainLayout, 800, 500);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

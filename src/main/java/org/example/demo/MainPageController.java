@@ -17,10 +17,8 @@ public class MainPageController extends Application {
 
     private static class Subject {
         private String name;
-        private double homework;
-        private double quiz;
-        private double test;
-        private double exam;
+        private double homework, quiz, test, exam;
+        private double homeworkWeight = 30, quizWeight = 20, testWeight = 30, examWeight = 20; // 사용자 지정 비율
         private double credits;
         private double finalScore; // FinalScore (Max Score 100)
         private String letterGrade; // Credit (A+, A0 , etc)
@@ -153,9 +151,9 @@ public class MainPageController extends Application {
         // Main layout
         BorderPane mainLayout = new BorderPane();
 
-        // 왼쪽 패널 - 과목 목록Left Panel - Subject List
-        //VBox leftPanel = createLeftPanel();
-        //mainLayout.setLeft(leftPanel);
+        // Left Panel - Subject List Left Panel - Subject List
+        VBox leftPanel = createLeftPanel();
+        mainLayout.setLeft(leftPanel);
 
         // Right Panel - Entry and Results of Subject Information
         VBox rightPanel = createRightPanel();
@@ -167,6 +165,11 @@ public class MainPageController extends Application {
     }
 
     private VBox createLeftPanel() {
+        TextField hwWeightField = new TextField("30");
+        TextField qzWeightField = new TextField("20");
+        TextField tsWeightField = new TextField("30");
+        TextField exWeightField = new TextField("20");
+
         VBox panel = new VBox(10);
         panel.setPadding(new Insets(10));
 
@@ -192,6 +195,10 @@ public class MainPageController extends Application {
     }
 
     private VBox createRightPanel() {
+        TextField hwWeightField = new TextField("30");
+        TextField qzWeightField = new TextField("20");
+        TextField tsWeightField = new TextField("30");
+        TextField exWeightField = new TextField("20");
         VBox panel = new VBox(10);
         panel.setPadding(new Insets(10));
         GridPane inputGrid = new GridPane();
@@ -209,23 +216,26 @@ public class MainPageController extends Application {
 
         inputGrid.add(new Label("Homework (Test: 30%):"), 0, 2);
         homeworkField = new TextField();
-        homeworkField.setPromptText("0-100");
         inputGrid.add(homeworkField, 1, 2);
+        inputGrid.add(new Label("homework percentage(%):"), 2, 2);
+        inputGrid.add(hwWeightField, 3, 2);
 
         inputGrid.add(new Label("Quiz (Test: 20%):"), 0, 3);
         quizField = new TextField();
-        quizField.setPromptText("0-100");
         inputGrid.add(quizField, 1, 3);
+        inputGrid.add(new Label("Quiz percentage(%):"), 2, 3);
+        inputGrid.add(qzWeightField, 3, 3);
 
         inputGrid.add(new Label("Test (Test: 30%):"), 0, 4);
-        testField = new TextField();
-        testField.setPromptText("0-100");
         inputGrid.add(testField, 1, 4);
+        inputGrid.add(new Label("Test percentage(%):"), 2, 4);
+        inputGrid.add(tsWeightField, 3, 4);
 
         inputGrid.add(new Label("Exam (Test: 20%):"), 0, 5);
         examField = new TextField();
-        examField.setPromptText("0-100");
         inputGrid.add(examField, 1, 5);
+        inputGrid.add(new Label("시험 비율(%):"), 2, 5);
+        inputGrid.add(exWeightField, 3, 5);
 
         gradeLabel = new Label("Calculated credit: ");
 

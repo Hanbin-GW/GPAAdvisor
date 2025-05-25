@@ -7,8 +7,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainPageController extends Application {
@@ -156,8 +158,8 @@ public class MainPageController extends Application {
         //mainLayout.setLeft(leftPanel);
 
         // Right Panel - Entry and Results of Subject Information
-        //VBox rightPanel = createRightPanel();
-        //mainLayout.setRight(rightPanel);
+        VBox rightPanel = createRightPanel();
+        mainLayout.setRight(rightPanel);
 
         Scene scene = new Scene(mainLayout, 800, 500);
         primaryStage.setScene(scene);
@@ -186,6 +188,89 @@ public class MainPageController extends Application {
         HBox buttonBox = new HBox(10, addButton, removeButton);
 
         panel.getChildren().addAll(titleLabel, subjectListView, buttonBox);
+        return panel;
+    }
+
+    private VBox createRightPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(10));
+        GridPane inputGrid = new GridPane();
+        inputGrid.setHgap(10);
+        inputGrid.setVgap(10);
+
+        inputGrid.add(new Label("Subject name:"), 0, 0);
+        nameField = new TextField();
+        inputGrid.add(nameField, 1, 0);
+
+        inputGrid.add(new Label("Number of credits:"), 0, 1);
+        creditsField = new TextField();
+        creditsField.setPromptText("3.0");
+        inputGrid.add(creditsField, 1, 1);
+
+        inputGrid.add(new Label("Homework (Test: 30%):"), 0, 2);
+        homeworkField = new TextField();
+        homeworkField.setPromptText("0-100");
+        inputGrid.add(homeworkField, 1, 2);
+
+        inputGrid.add(new Label("Quiz (Test: 20%):"), 0, 3);
+        quizField = new TextField();
+        quizField.setPromptText("0-100");
+        inputGrid.add(quizField, 1, 3);
+
+        inputGrid.add(new Label("Test (Test: 30%):"), 0, 4);
+        testField = new TextField();
+        testField.setPromptText("0-100");
+        inputGrid.add(testField, 1, 4);
+
+        inputGrid.add(new Label("Exam (Test: 20%):"), 0, 5);
+        examField = new TextField();
+        examField.setPromptText("0-100");
+        inputGrid.add(examField, 1, 5);
+
+        gradeLabel = new Label("Calculated credit: ");
+
+        Button saveButton = new Button("Save");
+        //saveButton.setOnAction(e -> saveSubjectDetails());
+
+        // GPA Calculation Area
+        HBox gpaBox = new HBox(10);
+        Button calculateButton = new Button("GPA Calculate");
+        //calculateButton.setOnAction(e -> calculateGPA());
+        resultLabel = new Label("GPA: ");
+        gpaBox.getChildren().addAll(calculateButton, resultLabel);
+
+        gpaBox.setPadding(new Insets(10));
+
+        // Expectation Area
+        VBox predictionBox = new VBox(10);
+        HBox targetBox = new HBox(10);
+
+        Label targetGPALabel = new Label("Target GPA:");
+        targetGPAField = new TextField();
+        targetGPAField.setPromptText("4.0");
+        targetGPAField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Update forecast when target GPA changes
+            if (predictionCheckBox.isSelected()) {
+                //updatePrediction();
+            }
+        });
+        targetBox.getChildren().addAll(targetGPALabel, targetGPAField);
+
+        predictionCheckBox = new CheckBox("Enable Expectation");
+        //predictionCheckBox.setOnAction(e -> updatePrediction());
+
+        predictionLabel = new Label("Minimum score to achieve the goal: ");
+        targetFeedbackLabel = new Label("");
+        targetFeedbackLabel.setTextFill(Color.BLUE);
+
+        predictionBox.getChildren().addAll(targetBox, predictionCheckBox, predictionLabel, targetFeedbackLabel);
+
+        panel.getChildren().addAll(
+                new Label("Subject Information"), inputGrid, gradeLabel, saveButton,
+                new Separator(), gpaBox,
+                new Separator(), predictionBox
+        );
+
         return panel;
     }
 }

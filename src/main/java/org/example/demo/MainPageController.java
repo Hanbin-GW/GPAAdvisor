@@ -3,12 +3,12 @@ package org.example.demo;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainPageController extends Application {
@@ -146,7 +146,7 @@ public class MainPageController extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("GPA 계산기");
+        primaryStage.setTitle("GPA Calculator");
 
         // Main layout
         BorderPane mainLayout = new BorderPane();
@@ -162,5 +162,30 @@ public class MainPageController extends Application {
         Scene scene = new Scene(mainLayout, 800, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private VBox createLeftPanel() {
+        VBox panel = new VBox(10);
+        panel.setPadding(new Insets(10));
+
+        Label titleLabel = new Label("과목 목록");
+
+        subjectListView = new ListView<>(subjects);
+        subjectListView.setPrefWidth(250);
+        subjectListView.setPrefHeight(300);
+        /*subjectListView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> displaySubjectDetails(newValue)
+        );*/
+
+        Button addButton = new Button("과목 추가");
+        //addButton.setOnAction(e -> addNewSubject());
+
+        Button removeButton = new Button("과목 삭제");
+        //removeButton.setOnAction(e -> removeSelectedSubject());
+
+        HBox buttonBox = new HBox(10, addButton, removeButton);
+
+        panel.getChildren().addAll(titleLabel, subjectListView, buttonBox);
+        return panel;
     }
 }

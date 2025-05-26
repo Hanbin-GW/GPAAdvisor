@@ -178,15 +178,15 @@ public class MainPageController extends Application {
         subjectListView = new ListView<>(subjects);
         subjectListView.setPrefWidth(250);
         subjectListView.setPrefHeight(300);
-        /*subjectListView.getSelectionModel().selectedItemProperty().addListener(
+        subjectListView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> displaySubjectDetails(newValue)
-        );*/
+        );
 
         Button addButton = new Button("과목 추가");
-        //addButton.setOnAction(e -> addNewSubject());
+        addButton.setOnAction(e -> addNewSubject());
 
         Button removeButton = new Button("과목 삭제");
-        //removeButton.setOnAction(e -> removeSelectedSubject());
+        removeButton.setOnAction(e -> removeSelectedSubject());
 
         HBox buttonBox = new HBox(10, addButton, removeButton);
 
@@ -240,12 +240,12 @@ public class MainPageController extends Application {
         gradeLabel = new Label("Calculated credit: ");
 
         Button saveButton = new Button("Save");
-        //saveButton.setOnAction(e -> saveSubjectDetails());
+        saveButton.setOnAction(e -> saveSubjectDetails());
 
         // GPA Calculation Area
         HBox gpaBox = new HBox(10);
         Button calculateButton = new Button("GPA Calculate");
-        //calculateButton.setOnAction(e -> calculateGPA());
+        calculateButton.setOnAction(e -> calculateGPA());
         resultLabel = new Label("GPA: ");
         gpaBox.getChildren().addAll(calculateButton, resultLabel);
 
@@ -261,13 +261,13 @@ public class MainPageController extends Application {
         targetGPAField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Update forecast when target GPA changes
             if (predictionCheckBox.isSelected()) {
-                //updatePrediction();
+                 updatePrediction();
             }
         });
         targetBox.getChildren().addAll(targetGPALabel, targetGPAField);
 
         predictionCheckBox = new CheckBox("Enable Expectation");
-        //predictionCheckBox.setOnAction(e -> updatePrediction());
+        predictionCheckBox.setOnAction(e -> updatePrediction());
 
         predictionLabel = new Label("Minimum score to achieve the goal: ");
         targetFeedbackLabel = new Label("");
@@ -283,4 +283,26 @@ public class MainPageController extends Application {
 
         return panel;
     }
+
+	public void addNewSubject(){
+		TextInputDialog dialog = new TextInputDialog("new subject");
+		dialog.setTitle("Add a subject");
+        dialog.setHeaderText("insert a new subject's name");
+        dialog.setContentText("subject name:");
+
+        Optional<String> result = dialog.showAndWait();
+
+		if (result.isPresent() && !result.get().trim().isEmpty()) {
+            Subject newSubject = new Subject(result.get().trim(), 3.0);
+            subjects.add(newSubject);
+            subjectListView.getSelectionModel().select(newSubject);
+
+            // Reset the field
+            clearFields();
+            nameField.setText(newSubject.getName());
+            creditsField.setText("3.0");
+
+            showInformation("Add a subject", newSubject.getName() + "the subject was add.");
+        }
+	}
 }

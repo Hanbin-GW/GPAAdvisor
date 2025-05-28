@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public class MainPageController extends Application {
 
     private static class Subject {
@@ -305,4 +307,27 @@ public class MainPageController extends Application {
             showInformation("Add a subject", newSubject.getName() + "the subject was add.");
         }
 	}
+    private void addNewSubject() {
+        // 이름 입력 다이얼로그 표시
+        TextInputDialog dialog = new TextInputDialog("새 과목");
+        dialog.setTitle("과목 추가");
+        dialog.setHeaderText("새 과목의 이름을 입력하세요");
+        dialog.setContentText("과목명:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent() && !result.get().trim().isEmpty()) {
+            Subject newSubject = new Subject(result.get().trim(), 3.0);
+            subjects.add(newSubject);
+            subjectListView.getSelectionModel().select(newSubject);
+
+            // 필드 초기화
+            clearFields();
+            nameField.setText(newSubject.getName());
+            creditsField.setText("3.0");
+
+            showInformation("과목 추가", newSubject.getName() + " 과목이 추가되었습니다.");
+        }
+    }
+
 }

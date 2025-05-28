@@ -308,7 +308,7 @@ public class MainPageController extends Application {
         }
 	}
     private void addNewSubject() {
-        // 이름 입력 다이얼로그 표시
+        // Display Name Input Dialog
         TextInputDialog dialog = new TextInputDialog("새 과목");
         dialog.setTitle("과목 추가");
         dialog.setHeaderText("새 과목의 이름을 입력하세요");
@@ -321,7 +321,7 @@ public class MainPageController extends Application {
             subjects.add(newSubject);
             subjectListView.getSelectionModel().select(newSubject);
 
-            // 필드 초기화
+            // Reset Field
             clearFields();
             nameField.setText(newSubject.getName());
             creditsField.setText("3.0");

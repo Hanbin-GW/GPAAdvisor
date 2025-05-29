@@ -600,7 +600,7 @@ public class MainPageController extends Application {
         }
     }
     private double convertFromGPA(double gpa) {
-        // GPA를 100점 만점 기준으로 역변환
+        // Reverse GPA to 100 points
         if (gpa >= 4.5) return 97;
         else if (gpa >= 4.3) return 93;
         else if (gpa >= 4.0) return 90;

@@ -311,13 +311,13 @@ public class MainPageController extends Application {
     private void saveSubjectDetails() {
         Subject selected = subjectListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showWarning("입력 오류", "저장할 과목을 먼저 선택하세요.");
+            showWarning("Input Error", "Select the subject you want to save first.");
             return;
         }
 
         // 입력값 유효성 검사
         if (nameField.getText().trim().isEmpty()) {
-            showWarning("입력 오류", "과목명을 입력해주세요.");
+            showWarning("Input Error", "Please enter the subject name.");
             nameField.requestFocus();
             return;
         }
@@ -328,12 +328,12 @@ public class MainPageController extends Application {
             try {
                 credits = Double.parseDouble(creditsField.getText().trim().replace(',', '.'));
                 if (credits <= 0) {
-                    showWarning("입력 오류", "학점 수는 0보다 커야 합니다.");
+                    showWarning("Input Error", "The number of credits must be greater than zero.");
                     creditsField.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                showWarning("입력 오류", "학점 수는 숫자만 입력해주세요.");
+                showWarning("Input Error", "Please enter the number of credits.");
                 creditsField.requestFocus();
                 return;
             }
@@ -344,12 +344,12 @@ public class MainPageController extends Application {
             try {
                 homework = Double.parseDouble(homeworkField.getText().trim().replace(',', '.'));
                 if (homework < 0 || homework > 100) {
-                    showWarning("입력 오류", "숙제 점수는 0~100 사이의 값을 입력해주세요.");
+                    showWarning("Input error", "Please enter a value between 0 and 100 for your homework score.");
                     homeworkField.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                showWarning("입력 오류", "숙제 점수는 숫자만 입력해주세요.");
+                showWarning("Input error", "Please enter the number only for the homework score.");
                 homeworkField.requestFocus();
                 return;
             }
@@ -357,12 +357,12 @@ public class MainPageController extends Application {
             try {
                 quiz = Double.parseDouble(quizField.getText().trim().replace(',', '.'));
                 if (quiz < 0 || quiz > 100) {
-                    showWarning("입력 오류", "퀴즈 점수는 0~100 사이의 값을 입력해주세요.");
+                    showWarning("Input error", "Please enter a value between 0 and 100 for the quiz score.");
                     quizField.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                showWarning("입력 오류", "퀴즈 점수는 숫자만 입력해주세요.");
+                showWarning("Input error", "Please enter numbers only for the quiz score.");
                 quizField.requestFocus();
                 return;
             }
@@ -370,12 +370,12 @@ public class MainPageController extends Application {
             try {
                 test = Double.parseDouble(testField.getText().trim().replace(',', '.'));
                 if (test < 0 || test > 100) {
-                    showWarning("입력 오류", "테스트 점수는 0~100 사이의 값을 입력해주세요.");
+                    showWarning("Input error", "Please enter a value between 0 and 100 for the test score");
                     testField.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                showWarning("입력 오류", "테스트 점수는 숫자만 입력해주세요.");
+                showWarning("Input error", "Please enter only numbers for the test score.");
                 testField.requestFocus();
                 return;
             }
@@ -383,12 +383,12 @@ public class MainPageController extends Application {
             try {
                 exam = Double.parseDouble(examField.getText().trim().replace(',', '.'));
                 if (exam < 0 || exam > 100) {
-                    showWarning("입력 오류", "시험 점수는 0~100 사이의 값을 입력해주세요.");
+                    showWarning("Input error", "Please enter a value between 0 and 100 for the exam score.");
                     examField.requestFocus();
                     return;
                 }
             } catch (NumberFormatException e) {
-                showWarning("입력 오류", "시험 점수는 숫자만 입력해주세요.");
+                showWarning("Input error", "Please enter the number only for the exam score.");
                 examField.requestFocus();
                 return;
             }
@@ -405,7 +405,7 @@ public class MainPageController extends Application {
             selected.calculateFinalGrade();
 
             // 성적 정보 표시
-            gradeLabel.setText(String.format("계산된 성적: %.2f점 (%s, GPA: %.1f)",
+            gradeLabel.setText(String.format("calculated grades: %.2f (%s, GPA: %.1f)",
                     selected.getFinalScore(), selected.getLetterGrade(), selected.getGpaValue()));
 
             // 리스트뷰 갱신
@@ -431,10 +431,10 @@ public class MainPageController extends Application {
 
                         if (currentSubjectGPA >= neededGPA) {
                             targetFeedbackLabel.setTextFill(Color.GREEN);
-                            targetFeedbackLabel.setText("현재 성적으로 목표 GPA 달성이 가능합니다!");
+                            targetFeedbackLabel.setText("You can achieve your goal GPA with your current grades!");
                         } else {
                             targetFeedbackLabel.setTextFill(Color.RED);
-                            targetFeedbackLabel.setText("현재 성적으로는 목표 GPA 달성이 어렵습니다.");
+                            targetFeedbackLabel.setText("It is difficult to achieve the goal GPA with current grades.");
                         }
                     } catch (NumberFormatException e) {
                         // 목표 GPA가 숫자가 아닌 경우
@@ -443,10 +443,10 @@ public class MainPageController extends Application {
                 }
             }
 
-            showInformation("성적 저장", "'" + selected.getName() + "' 과목의 성적이 저장되었습니다.");
+            showInformation("Save Score", "'" + selected.getName() + "' Subjects score was saved.");
 
         } catch (Exception e) {
-            showError("오류 발생", "성적 저장 중 오류가 발생했습니다: " + e.getMessage());
+            showError("Error Occurred", "The error Occurred during the process: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -458,7 +458,7 @@ public class MainPageController extends Application {
         quizField.clear();
         testField.clear();
         examField.clear();
-        gradeLabel.setText("계산된 성적: 아직 없음");
+        gradeLabel.setText("Calculated grades: Not yet");
         targetFeedbackLabel.setText("");
     }
 }

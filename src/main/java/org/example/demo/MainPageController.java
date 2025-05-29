@@ -263,7 +263,7 @@ public class MainPageController extends Application {
         targetGPAField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Update forecast when target GPA changes
             if (predictionCheckBox.isSelected()) {
-                 updatePrediction();
+                 //updatePrediction();
             }
         });
         targetBox.getChildren().addAll(targetGPALabel, targetGPAField);
@@ -300,34 +300,154 @@ public class MainPageController extends Application {
             subjectListView.getSelectionModel().select(newSubject);
 
             // Reset the field
-            clearFields();
+            //clearFields();
             nameField.setText(newSubject.getName());
             creditsField.setText("3.0");
 
             showInformation("Add a subject", newSubject.getName() + "the subject was add.");
         }
 	}
-    private void addNewSubject() {
-        // Display Name Input Dialog
-        TextInputDialog dialog = new TextInputDialog("새 과목");
-        dialog.setTitle("과목 추가");
-        dialog.setHeaderText("새 과목의 이름을 입력하세요");
-        dialog.setContentText("과목명:");
 
-        Optional<String> result = dialog.showAndWait();
+    private void saveSubjectDetails() {
+        Subject selected = subjectListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showWarning("입력 오류", "저장할 과목을 먼저 선택하세요.");
+            return;
+        }
 
-        if (result.isPresent() && !result.get().trim().isEmpty()) {
-            Subject newSubject = new Subject(result.get().trim(), 3.0);
-            subjects.add(newSubject);
-            subjectListView.getSelectionModel().select(newSubject);
+        // 입력값 유효성 검사
+        if (nameField.getText().trim().isEmpty()) {
+            showWarning("입력 오류", "과목명을 입력해주세요.");
+            nameField.requestFocus();
+            return;
+        }
 
-            // Reset Field
-            clearFields();
-            nameField.setText(newSubject.getName());
-            creditsField.setText("3.0");
+        try {
+            // 학점 수 확인
+            double credits;
+            try {
+                credits = Double.parseDouble(creditsField.getText().trim().replace(',', '.'));
+                if (credits <= 0) {
+                    showWarning("입력 오류", "학점 수는 0보다 커야 합니다.");
+                    creditsField.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showWarning("입력 오류", "학점 수는 숫자만 입력해주세요.");
+                creditsField.requestFocus();
+                return;
+            }
 
-            showInformation("과목 추가", newSubject.getName() + " 과목이 추가되었습니다.");
+            // 점수 입력 (모두 100점 만점)
+            double homework, quiz, test, exam;
+
+            try {
+                homework = Double.parseDouble(homeworkField.getText().trim().replace(',', '.'));
+                if (homework < 0 || homework > 100) {
+                    showWarning("입력 오류", "숙제 점수는 0~100 사이의 값을 입력해주세요.");
+                    homeworkField.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showWarning("입력 오류", "숙제 점수는 숫자만 입력해주세요.");
+                homeworkField.requestFocus();
+                return;
+            }
+
+            try {
+                quiz = Double.parseDouble(quizField.getText().trim().replace(',', '.'));
+                if (quiz < 0 || quiz > 100) {
+                    showWarning("입력 오류", "퀴즈 점수는 0~100 사이의 값을 입력해주세요.");
+                    quizField.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showWarning("입력 오류", "퀴즈 점수는 숫자만 입력해주세요.");
+                quizField.requestFocus();
+                return;
+            }
+
+            try {
+                test = Double.parseDouble(testField.getText().trim().replace(',', '.'));
+                if (test < 0 || test > 100) {
+                    showWarning("입력 오류", "테스트 점수는 0~100 사이의 값을 입력해주세요.");
+                    testField.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showWarning("입력 오류", "테스트 점수는 숫자만 입력해주세요.");
+                testField.requestFocus();
+                return;
+            }
+
+            try {
+                exam = Double.parseDouble(examField.getText().trim().replace(',', '.'));
+                if (exam < 0 || exam > 100) {
+                    showWarning("입력 오류", "시험 점수는 0~100 사이의 값을 입력해주세요.");
+                    examField.requestFocus();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showWarning("입력 오류", "시험 점수는 숫자만 입력해주세요.");
+                examField.requestFocus();
+                return;
+            }
+
+            // 값이 모두 유효하면 과목에 저장
+            selected.setName(nameField.getText().trim());
+            selected.setCredits(credits);
+            selected.setHomework(homework);
+            selected.setQuiz(quiz);
+            selected.setTest(test);
+            selected.setExam(exam);
+
+            // 최종 성적 계산
+            selected.calculateFinalGrade();
+
+            // 성적 정보 표시
+            gradeLabel.setText(String.format("계산된 성적: %.2f점 (%s, GPA: %.1f)",
+                    selected.getFinalScore(), selected.getLetterGrade(), selected.getGpaValue()));
+
+            // 리스트뷰 갱신
+            subjectListView.refresh();
+
+            // GPA 다시 계산
+            calculateGPA();
+
+            // 목표 GPA와 비교하여 피드백 제공
+            if (predictionCheckBox.isSelected()) {
+                updatePrediction();
+
+                // 목표 GPA가 설정되어 있는지 확인
+                if (!targetGPAField.getText().trim().isEmpty()) {
+                    try {
+                        double targetGPA = Double.parseDouble(targetGPAField.getText().trim().replace(',', '.'));
+
+                        // 현재 설정된 과목의 GPA 값
+                        double currentSubjectGPA = selected.getGpaValue();
+
+                        // 목표 달성 위한 최소 GPA
+                        double neededGPA = calculateNeededGPA(selected);
+
+                        if (currentSubjectGPA >= neededGPA) {
+                            targetFeedbackLabel.setTextFill(Color.GREEN);
+                            targetFeedbackLabel.setText("현재 성적으로 목표 GPA 달성이 가능합니다!");
+                        } else {
+                            targetFeedbackLabel.setTextFill(Color.RED);
+                            targetFeedbackLabel.setText("현재 성적으로는 목표 GPA 달성이 어렵습니다.");
+                        }
+                    } catch (NumberFormatException e) {
+                        // 목표 GPA가 숫자가 아닌 경우
+                        targetFeedbackLabel.setText("");
+                    }
+                }
+            }
+
+            showInformation("성적 저장", "'" + selected.getName() + "' 과목의 성적이 저장되었습니다.");
+
+        } catch (Exception e) {
+            showError("오류 발생", "성적 저장 중 오류가 발생했습니다: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
 }

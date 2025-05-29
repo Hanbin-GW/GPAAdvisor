@@ -461,4 +461,30 @@ public class MainPageController extends Application {
         gradeLabel.setText("Calculated grades: Not yet");
         targetFeedbackLabel.setText("");
     }
+
+    private void calculateGPA() {
+        if (subjects.isEmpty()) {
+            resultLabel.setText("GPA: Add a subject.");
+            currentGPA = 0.0;
+            return;
+        }
+
+        double totalQualityPoints = 0;
+        double totalCredits = 0;
+
+        for (Subject subject : subjects) {
+            subject.calculateFinalGrade();
+            totalQualityPoints += subject.getGpaValue() * subject.getCredits();
+            totalCredits += subject.getCredits();
+        }
+
+        if (totalCredits > 0) {
+            currentGPA = totalQualityPoints / totalCredits;
+            resultLabel.setText(String.format("GPA: %.2f", currentGPA));
+        } else {
+            resultLabel.setText("GPA: Your credits are not entered.");
+            currentGPA = 0.0;
+        }
+    }
+
 }

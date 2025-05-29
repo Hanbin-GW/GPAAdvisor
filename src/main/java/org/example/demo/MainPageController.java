@@ -450,4 +450,15 @@ public class MainPageController extends Application {
             e.printStackTrace();
         }
     }
+
+    private void clearFields() {
+        nameField.clear();
+        creditsField.clear();
+        homeworkField.clear();
+        quizField.clear();
+        testField.clear();
+        examField.clear();
+        gradeLabel.setText("계산된 성적: 아직 없음");
+        targetFeedbackLabel.setText("");
+    }
 }

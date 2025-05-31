@@ -514,28 +514,28 @@ public class MainPageController extends Application {
 
     private void updatePrediction() {
         if (!predictionCheckBox.isSelected()) {
-            predictionLabel.setText("목표 달성을 위한 최소 점수: ");
+            predictionLabel.setText("Minimum score to achieve the goal: ");
             targetFeedbackLabel.setText("");
             return;
         }
 
         Subject selected = subjectListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            predictionLabel.setText("목표 달성을 위한 최소 점수: 과목을 선택해주세요.");
+            predictionLabel.setText("Minimum Score to Achieve Your Goal: Please Choose a Subject.");
             targetFeedbackLabel.setText("");
             return;
         }
 
-        // 입력된 목표 GPA가 있는지 확인
+        // Verify that the entered target GPA exists
         String targetGPAText = targetGPAField.getText().trim();
         if (targetGPAText.isEmpty()) {
-            predictionLabel.setText("목표 달성을 위한 최소 점수: 목표 GPA를 입력해주세요.");
+            predictionLabel.setText("Minimum score to achieve goal: Please enter your goal GPA.");
             targetFeedbackLabel.setText("");
             return;
         }
 
         try {
-            // 쉼표를 점으로 변경 (로케일 문제 해결)
+            // Change commas to dots (resolve locale issues)
             targetGPAText = targetGPAText.replace(',', '.');
             double targetGPA = Double.parseDouble(targetGPAText);
 
@@ -545,7 +545,7 @@ public class MainPageController extends Application {
                 return;
             }
 
-            // 현재 GPA 계산 (선택된 과목 제외)
+            // Current GPA calculation (excluding selected subjects)
             double totalQualityPoints = 0;
             double totalCredits = 0;
 
@@ -557,21 +557,21 @@ public class MainPageController extends Application {
                 }
             }
 
-            // 목표 GPA를 달성하기 위해 선택한 과목에서 필요한 성적 계산
+            // Calculate grades required in the selected subject to achieve the target GPA
             double neededQualityPoints = (targetGPA * (totalCredits + selected.getCredits())) - totalQualityPoints;
             double neededGPA = neededQualityPoints / selected.getCredits();
 
-            // 달성 가능 여부 확인 (필요한 GPA가 4.5 이상인 경우)
+            // Confirmation of attainability (if required GPA is greater than 4.5)
             if (neededGPA > 4.5) {
                 targetFeedbackLabel.setTextFill(Color.RED);
-                targetFeedbackLabel.setText("목표 GPA 달성이 불가능합니다. 다른 과목에서 더 높은 성적이 필요합니다.");
-                predictionLabel.setText("목표 달성을 위한 최소 점수: 달성 불가능");
+                targetFeedbackLabel.setText("Target GPA Not achievable. Need higher grades in other subjects.");
+                predictionLabel.setText("Minimum score to achieve goal: Not achievable");
                 return;
             } else if (neededGPA < 0) {
-                // 목표 GPA가 너무 낮아 이미 달성했거나 어떤 성적이든 달성 가능한 경우
+                // If the target GPA is too low to be achieved or any grade is achievable
                 targetFeedbackLabel.setTextFill(Color.GREEN);
-                targetFeedbackLabel.setText("이미 목표 GPA를 달성했거나 쉽게 달성 가능합니다.");
-                predictionLabel.setText("목표 달성을 위한 최소 점수: 이미 달성했습니다");
+                targetFeedbackLabel.setText("You have already achieved your target GPA or are easily achievable.");
+                predictionLabel.setText("Minimum score to achieve goal: already achieved");
                 return;
             }
 
@@ -579,22 +579,22 @@ public class MainPageController extends Application {
             double neededScore = convertFromGPA(neededGPA);
             String neededGrade = getLetterGradeFromGPA(neededGPA);
 
-            predictionLabel.setText(String.format("목표 달성을 위한 최소 점수: %.2f점 (%s)", neededScore, neededGrade));
+            predictionLabel.setText(String.format("Minimum score to achieve the goal: %.2f (%s)", neededScore, neededGrade));
 
             // 현재 설정된 과목의 점수와 비교
             if (selected.getFinalScore() >= neededScore) {
                 targetFeedbackLabel.setTextFill(Color.GREEN);
-                targetFeedbackLabel.setText("현재 성적으로 목표 GPA 달성이 가능합니다!");
+                targetFeedbackLabel.setText("You can achieve your goal GPA with your current grades!");
             } else {
                 targetFeedbackLabel.setTextFill(Color.RED);
-                targetFeedbackLabel.setText("현재 성적으로는 목표 GPA 달성이 어렵습니다.");
+                targetFeedbackLabel.setText("It is difficult to achieve the goal GPA with current grades.");
             }
 
         } catch (NumberFormatException e) {
-            predictionLabel.setText("목표 달성을 위한 최소 점수: 유효한 목표 GPA를 입력해주세요.");
+            predictionLabel.setText("Minimum Score to Achieve Goal: Please enter a valid Goal GPA.");
             targetFeedbackLabel.setText("");
         } catch (Exception e) {
-            predictionLabel.setText("목표 달성을 위한 최소 점수: 계산 중 오류가 발생했습니다.");
+            predictionLabel.setText("Minimum score to achieve goal: Error during calculation.");
             targetFeedbackLabel.setText("");
             e.printStackTrace();
         }
@@ -610,6 +610,6 @@ public class MainPageController extends Application {
         else if (gpa >= 2.5) return 77;
         else if (gpa >= 2.3) return 73;
         else if (gpa >= 2.0) return 70;
-        else return Math.max(0, gpa * 70 / 2.0); // F 범위 내에서 비례 계산
+        else return Math.max(0, gpa * 70 / 2.0); // Proportional calculation within F range
     }
 }

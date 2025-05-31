@@ -334,6 +334,31 @@ public class MainPageController extends Application {
             showWarning("Remove Subject", "Please select the subject you want to delete.");
         }
     }
+
+    private void displaySubjectDetails(Subject subject) {
+        if (subject != null) {
+            nameField.setText(subject.getName());
+            creditsField.setText(String.valueOf(subject.getCredits()));
+            homeworkField.setText(String.valueOf(subject.getHomework()));
+            quizField.setText(String.valueOf(subject.getQuiz()));
+            testField.setText(String.valueOf(subject.getTest()));
+            examField.setText(String.valueOf(subject.getExam()));
+
+            // Displaying grade information
+            if (subject.getFinalScore() > 0) {
+                gradeLabel.setText(String.format("Calculated grades: %.2f (%s, GPA: %.1f)",
+                        subject.getFinalScore(), subject.getLetterGrade(), subject.getGpaValue()));
+            } else {
+                gradeLabel.setText("Calculated grades: Not yet");
+            }
+
+            // Update if prediction is enabled
+            if (predictionCheckBox.isSelected()) {
+                updatePrediction();
+            }
+        }
+    }
+
     private void saveSubjectDetails() {
         Subject selected = subjectListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -434,25 +459,25 @@ public class MainPageController extends Application {
             gradeLabel.setText(String.format("calculated grades: %.2f (%s, GPA: %.1f)",
                     selected.getFinalScore(), selected.getLetterGrade(), selected.getGpaValue()));
 
-            // 리스트뷰 갱신
+            // Update List View
             subjectListView.refresh();
 
-            // GPA 다시 계산
+            // Recalculate GPA
             calculateGPA();
 
-            // 목표 GPA와 비교하여 피드백 제공
+            // Provide feedback compared to target GPA
             if (predictionCheckBox.isSelected()) {
                 updatePrediction();
 
-                // 목표 GPA가 설정되어 있는지 확인
+                // Check that the target GPA is set
                 if (!targetGPAField.getText().trim().isEmpty()) {
                     try {
                         double targetGPA = Double.parseDouble(targetGPAField.getText().trim().replace(',', '.'));
 
-                        // 현재 설정된 과목의 GPA 값
+                        // GPA values for the currently set subject
                         double currentSubjectGPA = selected.getGpaValue();
 
-                        // 목표 달성 위한 최소 GPA
+                        // Minimum GPA to Achieve Target
                         double neededGPA = calculateNeededGPA(selected);
 
                         if (currentSubjectGPA >= neededGPA) {
@@ -463,7 +488,7 @@ public class MainPageController extends Application {
                             targetFeedbackLabel.setText("It is difficult to achieve the goal GPA with current grades.");
                         }
                     } catch (NumberFormatException e) {
-                        // 목표 GPA가 숫자가 아닌 경우
+                        // Target GPA is not a number
                         targetFeedbackLabel.setText("");
                     }
                 }
@@ -601,13 +626,13 @@ public class MainPageController extends Application {
                 return;
             }
 
-            // GPA를 점수로 역변환
+            // Reverse GPA to Score
             double neededScore = convertFromGPA(neededGPA);
             String neededGrade = getLetterGradeFromGPA(neededGPA);
 
             predictionLabel.setText(String.format("Minimum score to achieve the goal: %.2f (%s)", neededScore, neededGrade));
 
-            // 현재 설정된 과목의 점수와 비교
+            // Compare to the score of the currently set subject
             if (selected.getFinalScore() >= neededScore) {
                 targetFeedbackLabel.setTextFill(Color.GREEN);
                 targetFeedbackLabel.setText("You can achieve your goal GPA with your current grades!");

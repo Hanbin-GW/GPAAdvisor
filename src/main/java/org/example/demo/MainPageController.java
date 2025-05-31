@@ -308,6 +308,32 @@ public class MainPageController extends Application {
         }
 	}
 
+    private void removeSelectedSubject() {
+        Subject selected = subjectListView.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            // Confirm deletion dialog
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remove Subject");
+            alert.setHeaderText("Checking to delete the subject");
+            alert.setContentText("Do you really remove '" + selected.getName() + "' Subject?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                subjects.remove(selected);
+                clearFields();
+
+                // Recalculate GPA
+                calculateGPA();
+
+                // Update Prediction
+                if (predictionCheckBox.isSelected()) {
+                    updatePrediction();
+                }
+            }
+        } else {
+            showWarning("Remove Subject", "Please select the subject you want to delete.");
+        }
+    }
     private void saveSubjectDetails() {
         Subject selected = subjectListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -315,7 +341,7 @@ public class MainPageController extends Application {
             return;
         }
 
-        // 입력값 유효성 검사
+        // Input Validation
         if (nameField.getText().trim().isEmpty()) {
             showWarning("Input Error", "Please enter the subject name.");
             nameField.requestFocus();
@@ -323,7 +349,7 @@ public class MainPageController extends Application {
         }
 
         try {
-            // 학점 수 확인
+            // Check the number of credits
             double credits;
             try {
                 credits = Double.parseDouble(creditsField.getText().trim().replace(',', '.'));
@@ -338,7 +364,7 @@ public class MainPageController extends Application {
                 return;
             }
 
-            // 점수 입력 (모두 100점 만점)
+            // Enter scores (all out of 100)
             double homework, quiz, test, exam;
 
             try {
@@ -401,10 +427,10 @@ public class MainPageController extends Application {
             selected.setTest(test);
             selected.setExam(exam);
 
-            // 최종 성적 계산
+            // final grade calculation
             selected.calculateFinalGrade();
 
-            // 성적 정보 표시
+            // Displaying grade information
             gradeLabel.setText(String.format("calculated grades: %.2f (%s, GPA: %.1f)",
                     selected.getFinalScore(), selected.getLetterGrade(), selected.getGpaValue()));
 

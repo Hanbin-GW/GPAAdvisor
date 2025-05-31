@@ -612,4 +612,17 @@ public class MainPageController extends Application {
         else if (gpa >= 2.0) return 70;
         else return Math.max(0, gpa * 70 / 2.0); // Proportional calculation within F range
     }
+    private String getLetterGradeFromGPA(double gpa) {
+        // Converting GPA to Credit
+        if (gpa >= 4.5) return "A+";
+        else if (gpa >= 4.3) return "A0";
+        else if (gpa >= 4.0) return "A-";
+        else if (gpa >= 3.5) return "B+";
+        else if (gpa >= 3.3) return "B0";
+        else if (gpa >= 3.0) return "B-";
+        else if (gpa >= 2.5) return "C+";
+        else if (gpa >= 2.3) return "C0";
+        else if (gpa >= 2.0) return "C-";
+        else return "F";
+    }
 }

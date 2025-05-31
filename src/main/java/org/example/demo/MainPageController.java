@@ -700,4 +700,8 @@ public class MainPageController extends Application {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

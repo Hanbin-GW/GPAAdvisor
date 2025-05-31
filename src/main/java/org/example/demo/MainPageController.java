@@ -37,7 +37,10 @@ public class MainPageController extends Application {
             this.letterGrade = "F";
             this.gpaValue = 0.0;
         }
-
+        @Override
+        public String toString() {
+            return name; // getName()과 결과 같음
+        }
         // Getters and Setters
         public String getName() {
             return name;
@@ -135,7 +138,7 @@ public class MainPageController extends Application {
         }
     }
 
-    // 과목 목록
+    // List of subjects
     private ObservableList<Subject> subjects = FXCollections.observableArrayList();
     private ListView<Subject> subjectListView;
     private TextField nameField, creditsField, homeworkField, quizField, testField, examField;
@@ -175,7 +178,7 @@ public class MainPageController extends Application {
         VBox panel = new VBox(10);
         panel.setPadding(new Insets(10));
 
-        Label titleLabel = new Label("과목 목록");
+        Label titleLabel = new Label("List of subjects");
 
         subjectListView = new ListView<>(subjects);
         subjectListView.setPrefWidth(250);
@@ -184,10 +187,10 @@ public class MainPageController extends Application {
                 (observable, oldValue, newValue) -> displaySubjectDetails(newValue)
         );
 
-        Button addButton = new Button("과목 추가");
+        Button addButton = new Button("Add Subjects");
         addButton.setOnAction(e -> addNewSubject());
 
-        Button removeButton = new Button("과목 삭제");
+        Button removeButton = new Button("Remove Subjects");
         removeButton.setOnAction(e -> removeSelectedSubject());
 
         HBox buttonBox = new HBox(10, addButton, removeButton);
@@ -229,6 +232,7 @@ public class MainPageController extends Application {
         inputGrid.add(qzWeightField, 3, 3);
 
         inputGrid.add(new Label("Test (Test: 30%):"), 0, 4);
+        testField = new TextField();
         inputGrid.add(testField, 1, 4);
         inputGrid.add(new Label("Test percentage(%):"), 2, 4);
         inputGrid.add(tsWeightField, 3, 4);
@@ -236,7 +240,7 @@ public class MainPageController extends Application {
         inputGrid.add(new Label("Exam (Test: 20%):"), 0, 5);
         examField = new TextField();
         inputGrid.add(examField, 1, 5);
-        inputGrid.add(new Label("시험 비율(%):"), 2, 5);
+        inputGrid.add(new Label("Test percentage (%):"), 2, 5);
         inputGrid.add(exWeightField, 3, 5);
 
         gradeLabel = new Label("Calculated credit: ");
@@ -444,7 +448,7 @@ public class MainPageController extends Application {
                 return;
             }
 
-            // 값이 모두 유효하면 과목에 저장
+            // Save to subject if all values are valid
             selected.setName(nameField.getText().trim());
             selected.setCredits(credits);
             selected.setHomework(homework);
